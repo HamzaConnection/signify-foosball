@@ -1,12 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import User from './models/user/user';
+import SessionCache from './shared/cache/SessionCache';
+import { useState } from 'react';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(SessionCache().get<User>('user'));
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
