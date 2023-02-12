@@ -4,14 +4,5 @@
     "fullName": "Hamza",
     "isAdmin": true
   },
-  "teams": [
-    {
-      "id": 1,
-      "name": "team1",
-      "players": [
-        "bob",
-        "billy"
-      ]
-    }
-  ]
+  "teams": []
 }

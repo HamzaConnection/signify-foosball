@@ -5,6 +5,9 @@ import Team from '../../../models/team/team'
 
 const RemoveTeamsPage = () => {
     const [teams, setTeams] = useState<Team[]>()
+    const [update, setUpdate] = useState<any>()
+
+
     const teamService = TeamService()
 
     const getAllTeam = async () => {
@@ -20,7 +23,7 @@ const RemoveTeamsPage = () => {
         try {
             teamService.deleteTeam(id)
             setTeams(await teamService.getAllTeams())
-
+            setUpdate(id)
         }
         catch (error) {
             // Do something about the error maybe a toaster etc.
@@ -30,7 +33,7 @@ const RemoveTeamsPage = () => {
 
     useEffect(() => {
         getAllTeam();
-    }, [])
+    }, [update])
 
     if (teams) {
         return (

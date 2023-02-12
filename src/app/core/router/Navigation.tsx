@@ -15,13 +15,15 @@ function Navigation() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href={START_GAME_ROUTE}>Start game</Nav.Link>
+
                         <Nav.Link href={SCORE_BOARD_ROUTE}>Score board</Nav.Link>
-                        <Nav.Link href={ADD_TEAM_ROUTE}>Add team</Nav.Link>
-                        <Nav.Link href={REMOVE_TEAM_ROUTE}>Remove team</Nav.Link>
-
-
-
+                        {user?.email &&
+                            <>
+                                <Nav.Link href={START_GAME_ROUTE}>Start game</Nav.Link>
+                                <Nav.Link href={ADD_TEAM_ROUTE}>Add team</Nav.Link>
+                                <Nav.Link href={REMOVE_TEAM_ROUTE}>Remove team</Nav.Link>
+                            </>
+                        }
                     </Nav>
                 </Navbar.Collapse>
                 {user?.email && <Navbar.Collapse className="justify-content-end">

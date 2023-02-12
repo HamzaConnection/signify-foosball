@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Row, Table } from 'react-bootstrap';
+import { Badge, Button, Form, Row, Table } from 'react-bootstrap';
 import TeamService from '../../../core/services/TeamService';
 import Match from '../../../models/match/match';
 import Team from '../../../models/team/team';
-
 const StartGamePage = () => {
 
     const [teams, setTeams] = useState<Team[]>()
@@ -40,6 +39,7 @@ const StartGamePage = () => {
 
     useEffect(() => {
         generateRound()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -93,6 +93,14 @@ const StartGamePage = () => {
         tournament = makeRoundRobinPairings(teams)
     }
 
+    if (teams?.length === 2 && teams[1].name === "--Skip round--") {
+        return (<div className='text-center'>
+            <h1><Badge>{teams[0].name}</Badge> has won the tournament</h1>
+            <h1>Congratulation to <Badge>{teams[0].players[0]}</Badge> and <Badge>{teams[0].players[1]}</Badge></h1>
+
+        </div>)
+    }
+
     if (tournament) {
         return (
             <>
@@ -138,8 +146,7 @@ const StartGamePage = () => {
         )
     } else {
         return <><Row className='my-2 mx-auto w-100'>
-            <p className='text-center'>No active game</p>
-            <Button className='m-1' onClick={() => generateRound()}>Generate New game </Button>
+            <h5 className='text-center'>Please add some teams to generate a new game. Only Admins can sign in to add teams</h5>
         </Row></>
     }
 

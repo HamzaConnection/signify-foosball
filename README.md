@@ -1,23 +1,42 @@
-# Getting Started with Create React App
+# How to use this react project developer guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+To run this project you must have node js installed which you can find here
+[Install node here](https://nodejs.org/en/download/)
+
+Once you installed node js you must install the dependencies for the project by navigating to the root of the project and type 
+ 
+ `npm install `
+ 
+ in your cmd/ terminal which will install all the dependencies you need.
+
+After that you are now ready to run both the backend and frontend by typing
+
+ `npm run dev`. 
+
+ in your cmd/ terminal
+
+Once the application has launched 
+
+To sign in on the application use 
+`email: hamzaconnection@hotmail.com`
+`password: 1`
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run dev`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The Backend which is a json server is opened up [http://localhost:5000](http://localhost:5000) to view it in the browser or make requests to it.
+
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
