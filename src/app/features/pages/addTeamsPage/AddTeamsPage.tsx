@@ -23,7 +23,6 @@ const AddTeamsPage = () => {
         const newTeam: Team = {
             id: Math.floor(Math.random() * 1000) + 1,
             "name": formValue.name,
-            "wins": 0,
             "players": [
                 formValue.player1,
                 formValue.player2

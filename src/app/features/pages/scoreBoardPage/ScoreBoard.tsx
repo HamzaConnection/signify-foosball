@@ -22,26 +22,21 @@ const ScoreBoard = () => {
 
 
 
-    const sortedByWinnersDesc = teams?.sort(function (team1: Team, team2: Team) { return team2.wins - team1.wins; });
     if (teams) {
         return (
             <Table bordered hover variant="dark">
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>Team</th>
                         <th>Players</th>
-                        <th>Won</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedByWinnersDesc?.map((team: Team, index) => {
+                    {teams?.map((team: Team, index) => {
                         return (
                             <tr>
-                                <td>{index + 1}</td>
                                 <td>{team.name}</td>
                                 <td>{team.players.join(" - ")}</td>
-                                <td>{team.wins}</td>
                             </tr>
                         )
 

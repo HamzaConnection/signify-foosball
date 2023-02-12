@@ -44,7 +44,7 @@ const StartGamePage = () => {
 
 
 
-    const breakTeam: Team = { id: 0, name: "--Skip round--", wins: 0, players: ["no players", "no players"] }
+    const breakTeam: Team = { id: 0, name: "--Skip round--", players: ["no players", "no players"] }
 
     const [losingTeam, setLosingTeam] = useState<string[]>([]);
 
