@@ -1,20 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Row, Table } from 'react-bootstrap';
+import TeamService from '../../../core/services/TeamService';
 import Match from '../../../models/match/match';
 import Team from '../../../models/team/team';
-import testdata from '../../../test data/testData';
 
 const StartGamePage = () => {
 
-    const breakTeam: Team = { name: "--Skip round--", wins: 0, players: ["no players", "no players"] }
+    const [teams, setTeams] = useState<Team[]>()
+
+    const teamService = TeamService()
+
+    const getAllTeam = async () => {
+        try {
+            const res = await teamService.getAllTeams()
+            setTeams(res)
+        }
+        catch (error) {
+            // Do something about the error maybe a toaster etc.
+        }
+    }
+
+    const deleteTeam = async (id: number) => {
+        try {
+            await teamService.deleteTeam(id)
+            setTeams(await teamService.getAllTeams())
+
+        }
+        catch (error) {
+            // Do something about the error maybe a toaster etc.
+        }
+    }
+
+    const generateRound = () => {
+        getAllTeam();
+        if (teams) {
+            tournament = makeRoundRobinPairings(teams!)
+        }
+    }
+
+    useEffect(() => {
+        generateRound()
+    }, [])
+
+
+
+    const breakTeam: Team = { id: 0, name: "--Skip round--", wins: 0, players: ["no players", "no players"] }
 
     const [losingTeam, setLosingTeam] = useState<string[]>([]);
 
-    const handleOnChange = (winTeam: string) => {
-        losingTeam.push(winTeam)
-        setLosingTeam(losingTeam)
-        console.log(losingTeam)
-    }
 
     function makeRoundRobinPairings(teams: Team[]) {
         if (teams.length % 2 === 1) {
@@ -55,60 +88,62 @@ const StartGamePage = () => {
         }
     }
 
-    const tournament = makeRoundRobinPairings(testdata)
+    let tournament
+    if (teams) {
+        tournament = makeRoundRobinPairings(teams)
+    }
 
-    return (
-        <>
-            <Table bordered hover variant="dark">
-                <thead>
-                    <tr>
-                        <th>Blue side</th>
-                        <th></th>
-                        <th>Red side</th>
-                        <th>Select Losing team</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        tournament?.matches?.map((matches: Match) => {
-                            return (
-                                < tr>
-                                    <td>{matches.TL.name}</td>
-                                    <td>vs </td>
-                                    <td>{matches.TR.name}</td>
-                                    <td>
-                                        <Form.Check
-                                            key={matches.TL.name}
-                                            type="checkbox"
-                                            id={matches.TL.name}
-                                            label={matches.TL.name}
-                                            className='me-2'
-                                            onChange={(e: any) => handleOnChange(e.target.id)}
-                                            disabled={matches.TL.name === "--Skip round--" || matches.TR.name === "--Skip round--"}
-                                        />
-                                        <Form.Check
-                                            key={matches.TR.name}
-                                            type="checkbox"
-                                            id={matches.TR.name}
-                                            label={matches.TR.name}
-                                            className='me-2'
-                                            onChange={(e: any) => handleOnChange(e.target.id)}
-                                            disabled={matches.TL.name === "--Skip round--" || matches.TR.name === "--Skip round--"} />
-                                    </td>
-                                </tr >
-                            )
-                        })
-                    }
+    if (tournament) {
+        return (
+            <>
+                <Table bordered hover variant="dark">
+                    <thead>
+                        <tr>
+                            <th>Blue side</th>
+                            <th></th>
+                            <th>Red side</th>
+                            <th>Select Losing team</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            tournament?.matches?.map((matches: Match) => {
+                                return (
+                                    < tr>
+                                        <td>{matches.TL.name}</td>
+                                        <td>vs </td>
+                                        <td>{matches.TR.name}</td>
+                                        <td>
+                                            <Button variant="danger" className='m-1' onClick={() => deleteTeam(matches.TL.id)}
+                                                disabled={matches.TL.name === "--Skip round--" || matches.TR.name === "--Skip round--"}
+                                            >{matches.TL.name}</Button>
+
+                                            <Button variant="danger" className='m-1' onClick={() => deleteTeam(matches.TR.id)}
+                                                disabled={matches.TL.name === "--Skip round--" || matches.TR.name === "--Skip round--"}
+                                            >{matches.TR.name}</Button>
+                                        </td>
+                                    </tr >
+                                )
+                            })
+                        }
 
 
-                </tbody>
-            </Table >
-            <Row className='my-2 mx-auto w-100'>
-                <Button>Next Round</Button>
-            </Row>
+                    </tbody>
+                </Table >
+                <Row className='my-2 mx-auto w-100'>
+                    <Button className='m-1' onClick={() => generateRound()}>Next Round</Button>
+                </Row>
 
-        </>
-    )
+            </>
+        )
+    } else {
+        return <><Row className='my-2 mx-auto w-100'>
+            <p className='text-center'>No active game</p>
+            <Button className='m-1' onClick={() => generateRound()}>Generate New game </Button>
+        </Row></>
+    }
+
+
 }
 export default StartGamePage
 

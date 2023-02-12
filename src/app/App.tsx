@@ -1,28 +1,30 @@
-import './App.css';
-import User from './models/user/user';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {
+  RouterProvider,
+} from "react-router-dom";
+import React, { useState } from 'react';
 import SessionCache from './shared/cache/SessionCache';
-import { useState } from 'react';
+import User from './models/user/user';
+import Layout from './shared/layout/Layout';
+import router from './core/router/router';
+import AuthProvider from './core/providers/authProvider';
 
-const App = () => {
+
+
+
+
+
+export const App = () => {
   const [user, setUser] = useState(SessionCache().get<User>('user'));
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AuthProvider userState={{ user, setUser }}>
+      <Layout>
+        <RouterProvider router={router} />
+      </Layout>
+    </AuthProvider>
+
+  )
 }
 
-export default App;
+
+

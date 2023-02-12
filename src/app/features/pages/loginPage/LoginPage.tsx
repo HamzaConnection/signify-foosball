@@ -5,12 +5,32 @@ import SessionCache from '../../../shared/cache/SessionCache';
 import User from '../../../models/user/user';
 import { Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { SCORE_BOARD_ROUTE, START_GAME_ROUTE } from '../../../constants/routes';
+import AuthService from '../../../core/services/AuthService';
+import { useUserContext } from '../../../core/context/userContext';
 
 
 const LoginPage = () => {
-    const [user, setUser] = useState(SessionCache().get<User>('user'));
+    const userContext = useUserContext()
+
     const [validated, setValidated] = useState(false);
     const navigate = useNavigate();
+
+    const useAuthService = AuthService()
+
+    const signIn = async () => {
+        try {
+            const adminUser = await useAuthService.getAdmin()
+            if (adminUser) {
+
+                SessionCache().set<User>('user', adminUser)
+                userContext.setUser(adminUser)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleSubmit = (event: any) => {
         const form = event.currentTarget;
@@ -20,7 +40,8 @@ const LoginPage = () => {
         }
 
         if (form.checkValidity() === true) {
-            navigate("/start-game")
+            signIn()
+            navigate(START_GAME_ROUTE)
         }
         setValidated(true);
 
@@ -30,7 +51,7 @@ const LoginPage = () => {
         <>
             <h1 className='text-center'>Login Page</h1>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                <Form.Group className="mb-3 mx-auto w-50" controlId="formBasicEmail">
+                <Form.Group className="mb-3 mx-auto w-50">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control required size="lg" type="email" placeholder="Enter email" />
                     <Form.Control.Feedback type="invalid">
@@ -38,7 +59,7 @@ const LoginPage = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group className="mb-3 mx-auto w-50" controlId="formBasicPassword">
+                <Form.Group className="mb-3 mx-auto w-50">
                     <Form.Label>Password</Form.Label>
                     <Form.Control required size="lg" type="password" placeholder="Password" />
                     <Form.Control.Feedback type="invalid">
@@ -49,7 +70,7 @@ const LoginPage = () => {
                     <Button variant="primary" type="submit" className='mb-3' size="lg">
                         Sign in
                     </Button>
-                    <Button variant="secondary" size="lg">
+                    <Button variant="secondary" size="lg" onClick={() => navigate(SCORE_BOARD_ROUTE)}>
                         Continue as Guest
                     </Button>
                 </Row>

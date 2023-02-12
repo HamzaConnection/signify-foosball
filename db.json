@@ -3,5 +3,61 @@
     "email": "hamzaconnection@hotmail.com",
     "fullName": "Hamza",
     "isAdmin": true
-  }
+  },
+  "teams": [
+    {
+      "id": 1,
+      "name": "team1",
+      "wins": 5,
+      "players": [
+        "bob",
+        "billy"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "team2",
+      "wins": 4,
+      "players": [
+        "Sandra",
+        "Clarissa"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "team3",
+      "wins": 3,
+      "players": [
+        "Hamza",
+        "Casper"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "team4",
+      "wins": 2,
+      "players": [
+        "Tony",
+        "Silly"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "team5",
+      "wins": 1,
+      "players": [
+        "Earth",
+        "Renz"
+      ]
+    },
+    {
+      "id": 854,
+      "name": "asdfasd",
+      "wins": 0,
+      "players": [
+        "23423",
+        "asfasd"
+      ]
+    }
+  ]
 }
